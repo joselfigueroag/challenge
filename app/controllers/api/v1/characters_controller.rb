@@ -1,21 +1,16 @@
 module Api
   module V1
     class CharactersController < ApplicationController
+      skip_before_action :authenticate, only: [:show, :index]
       before_action :set_character, only: [:show, :update, :destroy]
 
-      # GET /characters
       def index
         @characters = Character.where(movie_serie_id: params[:movie_series_id])
-
-        # render json: @characters
       end
 
-      # GET /characters/1
       def show
-        # render json: @character
       end
 
-      # POST /characters
       def create
         @character = Character.new(character_params)
 
@@ -26,7 +21,6 @@ module Api
         end
       end
 
-      # PATCH/PUT /characters/1
       def update
         if @character.update(character_params)
           render json: @character
@@ -35,18 +29,15 @@ module Api
         end
       end
 
-      # DELETE /characters/1
       def destroy
         @character.destroy
       end
 
       private
-        # Use callbacks to share common setup or constraints between actions.
         def set_character
-          @character = Character.find(params[:id])
+          @character = Character.where(movie_serie_id: params[:movie_series_id]).find(params[:id])
         end
 
-        # Only allow a list of trusted parameters through.
         def character_params
           params.require(:character).permit(:name, :image, :age, :movie_serie_id, :weight, :story)
         end

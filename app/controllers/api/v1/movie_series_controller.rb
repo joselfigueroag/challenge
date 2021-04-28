@@ -1,21 +1,16 @@
 module Api
   module V1
     class MovieSeriesController < ApplicationController
+      skip_before_action :authenticate, only: [:show, :index]
       before_action :set_movie_series, only: [:show, :update, :destroy]
 
-      # GET /movie_series
       def index
         @movie_series = MovieSerie.all
-
-        # render json: @movie_series
       end
 
-      # GET /movie_series/1
       def show
-        # render json: @movie_series
       end
 
-      # POST /movie_series
       def create
         @movie_series = MovieSerie.new(movie_series_params)
 
@@ -26,7 +21,6 @@ module Api
         end
       end
 
-      # PATCH/PUT /movie_series/1
       def update
         if @movie_series.update(movie_series_params)
           render json: @movie_series
@@ -35,18 +29,15 @@ module Api
         end
       end
 
-      # DELETE /movie_series/1
       def destroy
         @movie_series.destroy
       end
 
       private
-        # Use callbacks to share common setup or constraints between actions.
         def set_movie_series
           @movie_series = MovieSerie.find(params[:id])
         end
 
-        # Only allow a list of trusted parameters through.
         def movie_series_params
           params.require(:movie_series).permit(:title, :image, :create_date, :gender, :qualification)
         end
