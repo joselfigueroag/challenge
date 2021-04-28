@@ -29,3 +29,9 @@ end
     movie_serie_id: rand(1..5)
   })
 end
+
+5.times do
+  user = User.create({
+    name: Faker::Artist.name
+  })
+end
